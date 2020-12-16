@@ -1,8 +1,6 @@
 import React from 'react';
-import { Button, ThemeProvider } from 'react-native-elements';
-import View from "react-native-web/dist/exports/View";
-import Image from "react-native-web/dist/exports/Image";
-
+import { Button, ThemeProvider, Image } from 'react-native-elements';
+import {View} from 'react-native'
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -11,6 +9,7 @@ const HomeScreen = ({ navigation }) => {
         <Image style={{width: 200, height: 100, marginTop: "10%", marginBottom: "20%"}} resizeMode="contain" source={require('../assets/logo.png')}/>
         <Button style={{width: 200, padding: "30px"}} title="Handicap" onPress={() => navigation.navigate('Handicap')}/>
         <Button style={{width: 200, padding: "30px"}} title="Tutelle" onPress={() => navigation.navigate('Tutelle')}/>
+        <Button style={{width: 200, padding: "30px"}} title="Account" onPress={() => navigation.navigate('Account')}/>
       </View>
     </ThemeProvider>
   )
