@@ -1,8 +1,6 @@
-import {Button, Text, ThemeProvider} from "react-native-elements";
-import View from "react-native-web/dist/exports/View";
-import Image from "react-native-web/dist/exports/Image";
 import React, {useState} from "react";
-import { Input, CheckBox } from 'react-native-elements';
+import {Button, Text, ThemeProvider, Image, Input, CheckBox} from "react-native-elements";
+import {ScrollView} from "react-native"
 
 const Tutelle = ({navigation}) => {
   const functionnalities = {chatbot: true, vocalGuide: true, fingerprint: true, facialRecognition: true,
@@ -22,7 +20,7 @@ const Tutelle = ({navigation}) => {
 
   return (
     <ThemeProvider>
-      <View style={{flex: 1, flexDirection: "column", alignItems: "center", backgroundColor: "white"}}>
+      <ScrollView style={{flex: 1, flexDirection: "column", alignContent: "center", backgroundColor: "white"}}>
         <Image style={{width: 200, height: 100, marginTop: "10%", marginBottom: "10%"}} resizeMode="contain" source={require('../assets/logo.png')}/>
         <Text h3 style={{marginBottom: "10%"}}>{stepTitles[step]}</Text>
         {
@@ -33,7 +31,7 @@ const Tutelle = ({navigation}) => {
           })
         }
         <Button style={{width: 200, padding: "30px"}} title={step !== stepMax ? "Suivant" : "Finir"} onPress={() => {step === stepMax ? navigation.navigate("Home") : setStep(step + 1)}}/>
-      </View>
+      </ScrollView>
     </ThemeProvider>
   )
 }
