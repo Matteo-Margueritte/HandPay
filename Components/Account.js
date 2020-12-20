@@ -3,70 +3,80 @@ import {
     StyleSheet,
     View,
     FlatList,
-    ActivityIndicator,
-    Image,
-    TouchableOpacity,
-    SafeAreaView, Text
+    Text
 } from 'react-native';
+import {Input, Button} from "react-native-elements";
+import axios from "axios";
 
-
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'Compte Courant',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Deuxieme compte',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Troisieme compte',
-    },
-];
-
-const Item = ({ title }) => (
-    <View style={{
-        flex: 1,
-        flexDirection: 'column',
-        margin: 1
-    }}>
-        <Text style={styles.imageThumbnail}>{title}</Text>
-    </View>
-);
 
 const Account = ({navigation}) => {
-    const [data, setData] = useState([])
-    useEffect(() => {
-        // api call here
-        let items = Array.apply(null, Array(10)).map((v, i) => {
-            return {
-                id: i,
-                src: "Info user"
+    const [text, setText] = useState("")
+    const [data, setData] = useState(Object)
+    const [isEmpty, setIsEmpty] = useState(null)
+    const [render, setRender] = useState()
+
+
+    const checkBank = (bankID) => {
+        const configHeader = {
+            headers: {
+                'Content-Type': 'application/json'
             }
-        })
-        setData(items)
-    }, [])
-    const renderItem = ({ item }) => <Item title={item.title} />;
+        }
+        const toRender = [
+            {
+                id: "name",
+                title: ""
+            },
+            {
+                id: "office type",
+                title: ""
+            },
+            {
+                id: "address",
+                title: ""
+            },
+            {
+                id: "national id",
+                title: ""
+            },
+            {
+                id: "status",
+                title: ""
+            },
+        ]
+
+        axios.post("http://localhost:4209/nationalID", {bankID: bankID},configHeader)
+            .then(res => {
+                if (res.status === 200) {
+                            setData(res.data)
+                            console.log(res.data)
+                            toRender[0].title = data.institutionName
+                            toRender[1].title = data.officeType
+                            toRender[2].title = data.address.street + " " + data.address.townName + " " + data.address.countrySubDivision
+                            toRender[3].title = data.nationalId.id
+                            toRender[4].title = data.status
+                            setRender(...toRender)
+                }
+            })
+    }
+
+
 
     return (
-        <SafeAreaView style={styles.container}>
-            <FlatList
-                data={DATA}
-                renderItem={({item}) => (
-                    <View style={styles.item}>
-                        <Text style={styles.textStyle} >
-                            {item.title}
-                        </Text>
+        <View style={styles.container}>
+            <Input
+                style={{ height: 50, borderColor: 'gray', borderWidth: 1}}
+                onChangeText={text => setText(text)}
+                placeholder={"Tapez le bic de votre banque"}
+            />
+            <Button title={"Information sur votre banque"} onPress={() => checkBank(text)}/>
 
-                    </View>
-                )}
-                //Setting the number of column
-                numColumns={2}
-                keyExtractor={(item, index) => index}
+            <FlatList
+                data={render}
+                renderItem={({ item }) => <Text style={styles.item}>{item.id}</Text>}
             />
 
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -92,7 +102,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         margin: 10,
-        backgroundColor: '#f9c2ff',
         padding: 10,
     },
 });
