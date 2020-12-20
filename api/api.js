@@ -1,7 +1,6 @@
 import defaults from "lodash/defaults"
 import axios from "axios"
 import qs from "querystring"
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const requestBody = {
     client_id: "3a0f77fe-84b0-4887-8bd5-b74daa3e0ec4",

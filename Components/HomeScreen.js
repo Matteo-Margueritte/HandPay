@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, ThemeProvider, Image } from 'react-native-elements';
-import {View} from 'react-native'
+import { Button, ThemeProvider} from 'react-native-elements';
+import {View, Image} from 'react-native'
 
 const HomeScreen = ({ navigation }) => {
   return (
